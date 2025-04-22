@@ -1,17 +1,6 @@
-import express from 'express';
-import cors from 'cors';
+import { VercelRequest, VercelResponse } from '@vercel/node';
 import nodemailer from 'nodemailer';
-import dotenv from 'dotenv';
 
-dotenv.config();
-
-const app = express();
-
-// Middleware
-app.use(cors());
-app.use(express.json());
-
-// Email configuration
 const transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
@@ -20,10 +9,23 @@ const transporter = nodemailer.createTransport({
   }
 });
 
-// Contact form endpoint
-app.post('/api/contact', async (req, res) => {
+interface ContactFormData {
+  name: string;
+  email: string;
+  message: string;
+  subject: string;
+}
+
+export default async function handler(
+  req: VercelRequest,
+  res: VercelResponse
+) {
+  if (req.method !== 'POST') {
+    return res.status(405).json({ error: 'Method not allowed' });
+  }
+
   try {
-    const { name, email, message } = req.body;
+    const { name, email, message, subject } = req.body as ContactFormData;
 
     const mailOptions = {
       from: process.env.EMAIL_USER,
@@ -32,6 +34,7 @@ app.post('/api/contact', async (req, res) => {
       text: `
         Name: ${name}
         Email: ${email}
+        Subject: ${subject}
         Message: ${message}
       `
     };
@@ -42,14 +45,4 @@ app.post('/api/contact', async (req, res) => {
     console.error('Error sending email:', error);
     res.status(500).json({ error: 'Failed to send email' });
   }
-});
-
-// For local development
-if (process.env.NODE_ENV !== 'production') {
-  const PORT = process.env.PORT || 3001;
-  app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
-  });
 }
-
-export default app;
