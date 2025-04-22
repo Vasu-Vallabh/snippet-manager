@@ -8,6 +8,7 @@ import {
 } from "@/components/ui/accordion";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
+import { Link } from "react-router-dom";
 
 export default function GetStarted() {
   const steps = [
@@ -74,9 +75,11 @@ export default function GetStarted() {
             <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
               Begin managing your code snippets in just a few simple steps.
             </p>
-            <Button size="lg" className="text-lg px-8">
-              Create Account
-            </Button>
+            <Link to="/account">
+              <Button size="lg" className="text-lg px-8">
+                Create Account
+              </Button>
+            </Link>
           </div>
         </section>
 
