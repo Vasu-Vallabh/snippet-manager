@@ -1,9 +1,11 @@
-import { Link } from "react-router-dom";
-import { Button } from "../ui/button";
 import { useState } from "react";
+import { Link } from "react-router-dom";
+import { Button } from "@/components/ui/button";
+import { useTheme } from "@/components/theme-provider";
 
 export function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const { theme, setTheme } = useTheme();
 
   return (
     <header className="border-b py-4">
@@ -13,7 +15,14 @@ export function Header() {
           <p className="text-sm text-muted-foreground">Organize and share your code snippets effortlessly</p>
         </Link>
         
-        <nav className="hidden md:flex gap-4">
+        <nav className="hidden md:flex gap-4 items-center">
+          <Button 
+            variant="ghost" 
+            size="icon"
+            onClick={() => setTheme(theme === "light" ? "dark" : "light")}
+          >
+            {theme === "dark" ? '🌞' : '🌙'}
+          </Button>
           <Link to="/about">
             <Button variant="ghost">About</Button>
           </Link>
@@ -42,6 +51,13 @@ export function Header() {
       {isMobileMenuOpen && (
         <nav className="md:hidden py-4 px-4 border-t">
           <div className="container mx-auto flex flex-col gap-2">
+            <Button 
+              variant="ghost" 
+              className="w-full justify-start"
+              onClick={() => setTheme(theme === "light" ? "dark" : "light")}
+            >
+              {theme === "dark" ? '🌞 Light Mode' : '🌙 Dark Mode'}
+            </Button>
             <Link to="/about" className="w-full">
               <Button variant="ghost" className="w-full justify-start">About</Button>
             </Link>
