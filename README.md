@@ -15,6 +15,13 @@ A modern code snippet manager built with React, Vite, Tailwind CSS, Shadcn/UI, a
 - 📨 Contact form with email integration
 - 🛡️ Secure backend with rate limiting and sanitization
 
+## Snippet Management
+
+- Create, edit, and delete code snippets
+- Organize snippets with custom tags
+- Beautiful syntax highlighting for multiple programming languages
+- Securely store and manage code snippets
+
 ## Getting Started
 
 1. Clone this repository
